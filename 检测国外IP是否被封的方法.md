@@ -20,3 +20,6 @@
 
 如果显示此 SSH 连接端口为开启状态，加上前面检测到的此 SSH 连接端口在国内为关闭状态，此时完全可以确定此 IP 已经被封！而如果显示此 SSH 连接端口依旧为关闭状态，那么就检查下机器是不是在正常运行以及端口是否填写错误。
 
+引用链接：
+https://www.banwagongzw.com/72.html
+https://www.banwagongzw.com/31.html
