@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>缤纷小球</title>
+    <style>
+        #canvas {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas">
+        您的浏览器不支持canvas！请升级您的浏览器。
+    </canvas>
+
+    <script src="https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"></script>
+    <script>
+        //1.获取到canvas元素
+        const cvs = document.getElementById('canvas');
+        //1.1 canvas有默认尺寸300*150，根据需要手动设置尺寸
+        cvs.width = 1000;
+        cvs.height = 600;
+        cvs.style.backgroundColor = '#000';
+        //1.2 获取在 canvas 上绘图的 canvasRenderingContent2D 对象
+        const ctx = cvs.getContext('2d');
+
+        //2.小球
+        class Ball {
+            constructor(ctx, x, y, radius = 50,  color = '#fff') {
+                this.ctx = ctx;
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+            }
+
+            render() {
+                this.ctx.save();
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                this.ctx.fillStyle = this.color;
+                this.ctx.fill();
+                this.ctx.restore();
+            }
+        }
+
+        //3.移动的小球
+        class MoveBall extends Ball {
+            constructor(ctx, x, y, radius, color) {
+                super(ctx, x, y, radius, color);
+
+                this.dX = _.random(-5, 5);
+                this.dY = _.random(-5, 5);
+                this.dR = _.random(1, 3);
+            }
+
+            update() {
+                this.x += this.dX;
+                this.y += this.dY;
+                this.radius -= this.dR;
+                if(this.radius < 0) {
+                    this.radius = 0;
+                }
+            }
+        }
+
+        //4.鼠标的移动实例化小球
+        let ballArr = [];
+        let colorArr = ['red', 'green', 'blue', 'yellow', 'purple', 'pink', 'orange', 'brown'];
+        cvs.addEventListener('mousemove', function (e) {
+            let ball = new MoveBall(ctx, e.offsetX, e.offsetY, 20, colorArr[_.random(0, colorArr.length - 1)])
+            ballArr.push(ball);
+            console.log(ballArr)
+        })
+
+        //5.定时绘制画布
+        let timerId = setInterval(function(){
+            //清屏
+            ctx.clearRect(0, 0, cvs.width, cvs.height);
+
+            for(let i = 0, len = ballArr.length; i < len; i++) {
+                ballArr[i].render();
+                ballArr[i].update();
+            }
+        }, 1000 / 60);
+
+    </script>
+</body>
+</html>
