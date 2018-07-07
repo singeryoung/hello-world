@@ -1,0 +1,7 @@
+
+如果网站面向国内用户推荐使用 BootCDN，面向国际用户则使用 jsDelivr。
+
+如果你使用 CDN 服务，建议准备一个备胎，万一 CDN 服务挂了，可以从自己的服务器上读取：
+
+<script src="//cdn.staticfile.org/jquery/2.0.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/jquery.min.js"><\/script>')</s
